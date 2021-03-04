@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        <!--namespace命名空间建议使用接口的全限定名称-->
+<mapper namespace="com.billion.dao.StudentDao">
+    <!--定义动态SQL代码片段，实现复用-->
+    <sql id="mystatement">
+        select id, name, email, age from student
+    </sql>
+    <!--id建议使用方法名-->
+    <!--resultType使用全限定名称-->
+    <select id="selectOneByIf" resultType="com.billion.entity.Student">
+        <include refid="mystatement"/>
+        where 1 = 1
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test="age > 0">
+            and age > #{age}
+        </if>
+    </select>
+
+    <select id="selectOneByWhere" resultType="com.billion.entity.Student">
+        <include refid="mystatement"/>
+        <where>
+            <if test="name != null and name != ''">
+                name = #{name}
+            </if>
+            <if test="age > 0">
+                and age > #{age}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOneByForeach1" resultType="com.billion.entity.Student">
+        <include refid="mystatement"/>
+        where id in
+        <foreach collection="array" item="myid" open="(" close=")" separator=",">
+            #{myid}
+        </foreach>
+    </select>
+
+    <select id="selectOneByForeach2" resultType="com.billion.entity.Student">
+        <include refid="mystatement"/>
+        where id in
+        <foreach collection="list" item="stu" open="(" close=")" separator=",">
+            #{stu.id}
+        </foreach>
+    </select>
+
+    <select id="selectAllByPageHelper" resultType="com.billion.entity.Student">
+        <include refid="mystatement"/>
+    </select>
+</mapper>

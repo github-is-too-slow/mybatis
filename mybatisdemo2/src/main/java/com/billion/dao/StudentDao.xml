@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        <!--namespace命名空间建议使用接口的全限定名称-->
+<mapper namespace="com.billion.dao.StudentDao">
+
+    <!--id建议使用方法名-->
+    <!--resultType使用全限定名称-->
+    <!--查询返回单个值-->
+    <select id="selectCount" parameterType="java.lang.Integer" resultType="int">
+        select count(*) from student
+    </select>
+
+    <select id="selectOne" resultType="com.billion.entity.Student">
+        select id, name, email, age from student where name = #{myname} and age > #{myage}
+    </select>
+
+    <select id="selectOneByObj" resultType="com.billion.entity.Student">
+        select id, name, email, age from student
+        where name = #{name, javaType = java.lang.String, jdbcType = VARCHAR}
+        and age > #{age, javaType = java.lang.Integer, jdbcType = INTEGER}
+    </select>
+
+    <select id="selectOneByPos" resultType="com.billion.entity.Student">
+        select id, name, email, age from student where name = #{arg0} and age > #{arg1}
+    </select>
+
+    <select id="selectOneByMap" resultType="com.billion.entity.Student">
+        select id, name, email, age from student where name = #{name} and age > #{age}
+    </select>
+
+    <!--使用主配置文件下定义的别名-->
+    <select id="selectOneByAlias" resultType="Student">
+        select id, name, email, age from student where name = #{name} and age > #{age}
+    </select>
+
+    <select id="selectMap" resultType="map">
+        select id, name, email, age from student where name = #{name} and age > #{age}
+    </select>
+
+    <!--指定字段和属性间的映射关系，解决字段和属性名不一致方式1-->
+    <resultMap id="myMap" type="MyStudent">
+        <!--主键列映射-->
+        <id column="id" property="myId"/>
+        <!--非主键列映射-->
+        <result column="name" property="myName"/>
+    </resultMap>
+
+    <select id="selectByResultMap" resultMap="myMap">
+        select id, name, email, age from student where name = #{name} and age > #{age}
+    </select>
+
+    <!--通过别名解决字段和属性名不一致方式2-->
+    <select id="selectByAlias" resultType="MyStudent">
+        select id myId, name myName, email, age from student where name = #{name} and age > #{age}
+    </select>
+
+    <select id="selectByLike" resultType="Student">
+        select id, name, email, age from student where name like #{name}
+    </select>
+</mapper>

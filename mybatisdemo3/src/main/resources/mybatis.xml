@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--读取属性文件-->
+    <properties resource="jdbc.properties"/>
+
+    <!--控制MyBatis全局行为-->
+    <settings>
+        <!--输出日志信息到控制台-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!--配置全限定名称的别名-->
+    <typeAliases>
+        <!--<typeAlias type="com.billion.entity.Student" alias="stu"/>-->
+        <package name="com.billion.entity"/>
+    </typeAliases>
+
+    <!--配置pagehelper拦截器-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
+    </plugins>
+    
+    <!--数据库连接信息-->
+    <environments default="mydev">
+        <environment id="mydev">
+            <!--定义事务管理类型为JDBC（使用JDBC的commit和rollback）-->
+            <transactionManager type="JDBC"/>
+            <!--使用连接池-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.mysql.driver}"/>
+                <property name="url" value="${jdbc.mysql.url}"/>
+                <property name="username" value="${jdbc.mysql.username}"/>
+                <property name="password" value="${jdbc.mysql.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--指定SQL映射文件位置，注意用斜杠分割，方式一-->
+        <!--<mapper resource="com/billion/dao/StudentDao.xml"/>-->
+        <!--指定SQL映射文件位置，方式二-->
+        <package name="com.billion.dao"/>
+    </mappers>
+</configuration>

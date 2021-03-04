@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--控制MyBatis全局行为-->
+    <settings>
+        <!--输出日志信息到控制台-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!--数据库连接信息-->
+    <environments default="mydev">
+        <environment id="mydev">
+            <!--定义事务管理类型为JDBC（使用JDBC的commit和rollback）-->
+            <transactionManager type="JDBC"/>
+            <!--使用连接池-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm"/>
+                <property name="username" value="root"/>
+                <property name="password" value="shiyu1234"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--指定SQL映射文件位置，注意用斜杠分割-->
+        <mapper resource="com/billion/dao/StudentDao.xml"/>
+    </mappers>
+</configuration>
